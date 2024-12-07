@@ -17,7 +17,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import java.time.Duration;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,28 +24,34 @@ import java.util.List;
 public class Selenium {
     public static void main(String[] args) throws Exception {
         // Set up WebDriver
-        System.setProperty("webdriver.chrome.driver", "C:/Users/anik/Downloads/chromedriver-win64 (1)/chromedriver-win64/chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "C:/Users/anik/Downloads/chromedriver-win64 (2)/chromedriver-win64/chromedriver.exe");
         WebDriver driver = new ChromeDriver();
-
-
+//        driver.get("https://www.google.com");
+//        driver.manage().window().maximize();
+//        driver.findElement(By.name("q")).sendKeys("selenium");
+//        Thread.sleep(2000);
+//        List<WebElement> list = driver.findElements(By.xpath("//ul[@role='listbox']/li"));
+//        for(WebElement element : list){
+//            System.out.println(element.getText());
+//        }
+        
         // Read the Excel data
         List<String> keywords = ExcelReader.readExcelSheet("C:/Users/anik/OneDrive/Documents/NetBeansProjects/Excel.xlsx");
 
         // Iterate through each keyword
         for (String keyword : keywords) {
-            driver.get("https://www.google.com");
-            WebElement searchBox = driver.findElement(By.name("q"));
-            searchBox.sendKeys(keyword);
-            searchBox.sendKeys(Keys.RETURN);
+           driver.get("https://www.google.com");
+            driver.manage().window().maximize();
+            driver.findElement(By.name("q")).sendKeys(keyword);
+            Thread.sleep(4000);
 
-            // Fetch suggestions
-            List<WebElement> suggestions = driver.findElements(By.cssSelector(".uU7dJb"));
+         // Fetch suggestions
+            List<WebElement> suggestions = driver.findElements(By.xpath("//ul[@role='listbox']/li"));
             List<String> suggestionTexts = new ArrayList<>();//.uU7dJb to .erkvQe li span
             for (WebElement suggestion : suggestions) {
                 suggestionTexts.add(suggestion.getText());
-                
+                System.out.println(suggestion);
             }
-            System.out.println(suggestionTexts);
 
             if (suggestionTexts.isEmpty()) {
                 System.out.println("No suggestions found for keyword: " + keyword);

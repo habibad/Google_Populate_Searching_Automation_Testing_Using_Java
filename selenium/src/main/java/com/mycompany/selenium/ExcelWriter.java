@@ -40,24 +40,24 @@ public class ExcelWriter {
                 throw new IOException("Sheet for the current day (" + currentDay + ") does not exist.");
             }
 
-            // Search for the row with the keyword and update the corresponding columns
+            // Search for the row with the keyword in column C (index 2)
             boolean keywordFound = false;
 
             for (Row row : sheet) {
-                Cell keywordCell = row.getCell(1); // Column B (index 1) for the keyword
+                Cell keywordCell = row.getCell(2); // Column C (index 2) for the keyword
                 if (keywordCell != null && keywordCell.getStringCellValue().equalsIgnoreCase(keyword)) {
                     keywordFound = true;
 
                     // Update or create cells for longest and shortest options
-                    Cell longestCell = row.getCell(2); // Column C (index 2)
+                    Cell longestCell = row.getCell(3); // Column D (index 3)
                     if (longestCell == null) {
-                        longestCell = row.createCell(2);
+                        longestCell = row.createCell(3);
                     }
                     longestCell.setCellValue(longestOption);
 
-                    Cell shortestCell = row.getCell(3); // Column D (index 3)
+                    Cell shortestCell = row.getCell(4); // Column E (index 4)
                     if (shortestCell == null) {
-                        shortestCell = row.createCell(3);
+                        shortestCell = row.createCell(4);
                     }
                     shortestCell.setCellValue(shortestOption);
 
